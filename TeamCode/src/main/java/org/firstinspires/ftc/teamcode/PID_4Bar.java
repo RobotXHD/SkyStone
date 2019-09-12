@@ -97,6 +97,7 @@ public class PID_4Bar extends OpMode {
         telemetry.addData("kD", kd);
         telemetry.addData("target", target);
         telemetry.addData("position", encoderStanga);
+        telemetry.addData("power:", motorBratStanga.getPower());
         telemetry.update();
     }
     private double PID (double delta, double kp, double ki, double kd){
