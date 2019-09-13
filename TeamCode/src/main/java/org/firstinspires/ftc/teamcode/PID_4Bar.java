@@ -103,7 +103,7 @@ public class PID_4Bar extends OpMode {
     private double PID (double delta, double kp, double ki, double kd){
         p = delta * kp; // se calibreaza prima prin kp
         i = i + delta; //se calibreaza a doua prin ki, aduna eroarea in timp (cu cat e mai mult timp eroarea, cu atat corectia e mai mare)
-        d = kd; // se calibreaza a 3 a, derivata lui f(x) = kd * x este kd
+        d = kd; // se calibreaza a 3 a, derivata lui f (x) = kd * x este kd
         return (p + i * ki + d);
     }
 }

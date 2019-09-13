@@ -185,7 +185,6 @@ public class TeleOP_S4T_HH extends OpMode {
         ENCD.start();
         ENCS.start();
         Chassis.start();
-
     }
 
     @Override
@@ -200,7 +199,6 @@ public class TeleOP_S4T_HH extends OpMode {
             telemetry.addData("Th EncS: ", fpsEncSLast);
             telemetry.addData("Th EncD: ", fpsEncDLast);
             telemetry.update();
-
     }
 
     public void stop(){stop = true;}
