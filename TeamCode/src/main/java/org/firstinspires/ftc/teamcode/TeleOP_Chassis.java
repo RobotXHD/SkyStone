@@ -31,7 +31,7 @@ public class TeleOP_Chassis extends OpMode {
     /**variables that count the thread's fps*/
     private long fpsC=0;
     private long fpsCLast;
-    /** variable that  holds the systime curent time milis*/
+    /** variable that  holds the system current time milliseconds*/
     private long sysTimeC;
 
 
@@ -114,7 +114,7 @@ public class TeleOP_Chassis extends OpMode {
         motorsf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorss.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        /**initialization sysTime */
+        /**initialization system current time milliseconds */
         sysTimeC = System.currentTimeMillis();
 
         /**start the thread*/

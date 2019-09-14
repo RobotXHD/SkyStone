@@ -10,7 +10,7 @@ import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 
 @TeleOp
-public class TeleOP_S4T_LOC extends OpMode {
+public class  TeleOP_S4T_LOC extends OpMode {
 
     private DcMotor encoderDreapta , encoderSpate, encoderStanga;
     private DcMotorEx motordf;
