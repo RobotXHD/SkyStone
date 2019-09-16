@@ -139,7 +139,7 @@ public class TeleOp_Colect extends OpMode {
         motorsf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorss.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        /**initialization sysTime */
+        /**initialization system current milliseconds */
         sysTimeC = System.currentTimeMillis();
 
         /**start the thread*/
@@ -154,14 +154,14 @@ public class TeleOp_Colect extends OpMode {
         telemetry.addData("motorsf: ", motorsf.getCurrentPosition());
         telemetry.addData("motords: ", motords.getCurrentPosition());
         telemetry.addData("motorss: ", motorss.getCurrentPosition());
-        telemetry.addData("Th Chassis: ", fpsCLast);
+        telemetry.addData("Th: ", fpsCLast);
         telemetry.update();
     }
 
     /**using the stop function to stop the threads */
     public void stop(){stop = true;}
 
-    /**the power functon sets the motor's power*/
+    /**the power function sets the motor's power*/
     public void POWER(double df1, double sf1, double ds1, double ss1){
         motordf.setPower(df1);
         motorss.setPower(ss1);
