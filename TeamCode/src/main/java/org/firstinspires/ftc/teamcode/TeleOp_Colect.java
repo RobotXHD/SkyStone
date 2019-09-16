@@ -128,7 +128,7 @@ public class TeleOp_Colect extends OpMode {
         motords.setDirection(DcMotorSimple.Direction.REVERSE);
         motorss.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        /**set the mode of the  motors */
+        /**set the mode of the motors */
         motordf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motords.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorsf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
