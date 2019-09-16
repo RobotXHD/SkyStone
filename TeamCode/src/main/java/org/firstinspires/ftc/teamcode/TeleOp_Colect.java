@@ -69,7 +69,6 @@ public class TeleOp_Colect extends OpMode {
                 }
                 if (abs(ds) > max) {
                     max = abs(ds);
-
                 }
                 if (max > 1) {
                     sf /= max;

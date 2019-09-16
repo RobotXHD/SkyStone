@@ -46,9 +46,12 @@ public class TeleOP_S4T_HH extends OpMode {
         public void run() {
             /**repeat until the program stops*/
             while(!stop){
+                /**reading the encoders*/
                 encdr = encoderDreapta.getCurrentPosition();
+                /**assigning the encoders value to another global value*/
                 EncDr = encdr;
 
+                /**fps counter */
                 fpsEncD++;
                 if (sysTimeEncD + 3000 < System.currentTimeMillis()) {
                     fpsEncDLast = fpsEncD / 3;
@@ -65,10 +68,12 @@ public class TeleOP_S4T_HH extends OpMode {
         public void run() {
             /**repeat until the program stops*/
             while(!stop){
-
+                /**reading the encoders*/
                 encsp =  encoderSpate.getCurrentPosition();
+                /**assigning the encoders value to another global value*/
                 EncSp =  encsp;
 
+                /**fps counter*/
                 fpsEncS++;
                 if (sysTimeEncS + 3000 < System.currentTimeMillis()) {
                     fpsEncSLast = fpsEncS/3;
