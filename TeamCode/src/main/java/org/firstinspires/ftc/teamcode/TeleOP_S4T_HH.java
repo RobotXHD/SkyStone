@@ -40,7 +40,7 @@ public class TeleOP_S4T_HH extends OpMode {
     private long EncDr , EncSp;
 
 
-    private Thread ENCD = new Thread(new Runnable() {
+    private Thread ENCDR = new Thread(new Runnable() {
         long encdr;
         @Override
         public void run() {
@@ -62,7 +62,7 @@ public class TeleOP_S4T_HH extends OpMode {
         }
     });
 
-    private Thread ENCS = new Thread(new Runnable() {
+    private Thread ENCSP = new Thread(new Runnable() {
         long encsp;
         @Override
         public void run() {
@@ -89,13 +89,14 @@ public class TeleOP_S4T_HH extends OpMode {
         public void run() {
             /**repeat until the program stops*/
             while (!stop) {
+                /**holding the position*/
                 if(gamepad1.a){
                     targetFS = EncDr;
                     targetSD = EncSp;
                 }
 
                 else {
-
+                    /***/
                     if(targetFS < EncDr-400){
                         while(targetFS < EncDr-400 && !stop){
                             POWER(0.1, -0.1, -0.1, 0.1);
@@ -210,8 +211,8 @@ public class TeleOP_S4T_HH extends OpMode {
         sysTimeEncS = System.currentTimeMillis();
 
         /**start the threads*/
-        ENCD.start();
-        ENCS.start();
+        ENCDR.start();
+        ENCSP.start();
         Chassis.start();
     }
 

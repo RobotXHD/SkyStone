@@ -35,7 +35,7 @@ public class  TeleOP_S4T_LOC extends OpMode {
     private boolean rot = true;
 
 
-   /* private Thread ENCDr = new Thread(new Runnable() {
+    private Thread ENCDr = new Thread(new Runnable() {
         int encdr;
         @Override
         public void run() {
@@ -51,16 +51,20 @@ public class  TeleOP_S4T_LOC extends OpMode {
                 }
             }
         }
-    });*/
+    });
 
     private Thread ENCSp = new Thread(new Runnable() {
         int encsp;
         @Override
         public void run() {
+            /**repeat until the program stop*/
             while(!stop){
+                /**reading the encoders*/
                 encsp = encoderSpate.getCurrentPosition();
+                /**assigning the encoders value to another global value*/
                 EncSp = encsp;
 
+                /**fps counter*/
                 fpsEncSp++;
                 if (sysTimeEncSp + 3000 < System.currentTimeMillis()) {
                     fpsEncSpLast = fpsEncSp/3;
@@ -72,15 +76,17 @@ public class  TeleOP_S4T_LOC extends OpMode {
     });
 
     private Thread ENCSt = new Thread(new Runnable() {
-        int encst, encdr;
+        int encst;
         @Override
         public void run() {
+            /**repeat until the program stop*/
             while(!stop){
+                /**reading the encoders*/
                 encst = encoderStanga.getCurrentPosition();
+                /**assigning the encoders value to another global value*/
                 EncSt = -encst;
-                encdr = encoderDreapta.getCurrentPosition();
-                EncDr = encdr;
 
+                /**fps counter*/
                 fpsEncSt++;
                 if(sysTimeEncSt + 3000 < System.currentTimeMillis()){
                     fpsEncStLast = fpsEncSt/3;

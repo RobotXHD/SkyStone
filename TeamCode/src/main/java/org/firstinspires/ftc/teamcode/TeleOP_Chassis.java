@@ -135,7 +135,7 @@ public class TeleOP_Chassis extends OpMode {
     /**using the stop function to stop the threads */
     public void stop(){stop = true;}
 
-    /**the power functon sets the motor's power*/
+    /**the power function sets the motor's power*/
     public void POWER(double df1, double sf1, double ds1, double ss1){
         motordf.setPower(df1);
         motorss.setPower(ss1);
