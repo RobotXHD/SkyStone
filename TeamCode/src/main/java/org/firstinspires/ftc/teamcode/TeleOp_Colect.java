@@ -32,9 +32,9 @@ public class TeleOp_Colect extends OpMode {
     /**variables that count the thread's fps*/
     private long fpsC=0;
     private long fpsCLast;
-    /** variable that  holds the systime curent time milis*/
+    /** variable that  holds the system current time milliseconds */
     private long sysTimeC;
-    /** variables that toggle motors colect */
+    /** variables that toggle motors collect */
     private boolean apoz = false, alast = true;
 
     private Thread Chassis_Colect = new Thread( new Runnable() {
