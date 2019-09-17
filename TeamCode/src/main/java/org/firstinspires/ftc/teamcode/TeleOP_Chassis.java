@@ -75,7 +75,7 @@ public class TeleOP_Chassis extends OpMode {
                     ss /= max;
                     ds /= max;
                 }
-                /** fps counter */
+                /** fps counter*/
                 fpsC++;
                 if (sysTimeC + 1000 < System.currentTimeMillis()) {
                     fpsCLast = fpsC;

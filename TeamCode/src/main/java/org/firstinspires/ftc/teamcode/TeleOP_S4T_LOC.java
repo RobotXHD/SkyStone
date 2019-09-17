@@ -11,24 +11,33 @@ import static java.lang.Math.abs;
 
 @TeleOp
 public class  TeleOP_S4T_LOC extends OpMode {
-
+    /***declare the motors and encoders */
     private DcMotor encoderDreapta , encoderSpate, encoderStanga;
     private DcMotorEx motordf;
     private DcMotorEx motorsf;
     private DcMotorEx motords;
     private DcMotorEx motorss;
+    /**variable for changing the movement speed of the robot*/
     private int v = 2;
+    /**variables for calculating the power for motors*/
     private double df;
     private double sf;
     private double ds;
     private double ss;
     private double max;
+    /**variables for holding the gamepad joystick values;
+     * we don't want to access them too many times in a loop */
     private double forward, rright, clockwise;
+    /**variable that stops the threads when programs stop*/
     private boolean stop = false;
+    /**variables that count the thread's fps*/
     private long fpsC=0, fpsEncDr = 0, fpsEncSp = 0, fpsEncSt = 0, fpsLOC = 0;
-    private long sysTimeC, sysTimeEncSp, sysTimeEncDr, sysTimeEncSt, sysTimeLOC, sysTimeLoop, sysTimeP, sysTimeI, sysTime, nextLoopTime = 3000, nextLoop;
     private long fpsCLast, fpsEncSpLast, fpsEncDrLast, fpsEncStLast, fpsLOCLast;
+    /** variables that  hold the system current time milliseconds*/
+    private long sysTimeC, sysTimeEncSp, sysTimeEncDr, sysTimeEncSt, sysTimeLOC, sysTimeP, sysTimeI, sysTime;
+    /**variables that holds the encoders value*/
     private int EncDr, EncSp, EncSt;
+    /**variables for calculating the pid */
     private double angle, fs, sideways;
     private double d = 377, omniLenght = 188.49555921538759430775860299677, rotationCircleLenght = PI * d, tickPerDeg = (rotationCircleLenght / omniLenght / 360) * 4000;
     private double encRot, targetAngle, delta, p, i, kp = -0.16, ki = -0.3, kd, corr;
@@ -39,10 +48,14 @@ public class  TeleOP_S4T_LOC extends OpMode {
         int encdr;
         @Override
         public void run() {
+            /**repeat until the program stops*/
             while(!stop){
+                /**reading the encoder*/
                 encdr = encoderDreapta.getCurrentPosition();
+                /**assigning the encoders value to another global value*/
                 EncDr = encdr;
 
+                /**fps counter*/
                 fpsEncDr++;
                 if (sysTimeEncDr + 3000 < System.currentTimeMillis()) {
                     fpsEncDrLast = fpsEncDr / 3;
@@ -100,7 +113,9 @@ public class  TeleOP_S4T_LOC extends OpMode {
     private Thread Chassis = new Thread( new Runnable() {
         @Override
         public void run() {
+            /**repeat until the program stops*/
             while (!stop) {
+                /**calibrating the ki, kp*/
                 if(gamepad1.dpad_down && sysTimeI + 200 < System.currentTimeMillis()){
                     sysTimeI = System.currentTimeMillis();
                     ki-=0.01;
@@ -119,6 +134,7 @@ public class  TeleOP_S4T_LOC extends OpMode {
                     kp-=0.01;
                 }
 
+
                 if(gamepad1.b) {
                     double targetAngle = 0;
                     if(angle < targetAngle){
@@ -134,15 +150,18 @@ public class  TeleOP_S4T_LOC extends OpMode {
                     POWER(0,0,0,0);
                 }
                 else {
+                    /**change the variable that controls the speed of the chassis using the bumpers*/
                     if (gamepad1.right_bumper) {
                         v = 1;
                     } else if (gamepad1.left_bumper) {
                         v = 2;
                     }
+                    /**getting the gamepad joystick values*/
                     forward = gamepad1.left_stick_y;
                     rright = -gamepad1.left_stick_x;
                     clockwise = gamepad1.right_stick_x;
 
+                    /**calculating the power for the motors*/
                     df = forward + clockwise - rright;
                     ss = forward - clockwise - rright;
                     sf = -forward + clockwise - rright;
@@ -175,6 +194,7 @@ public class  TeleOP_S4T_LOC extends OpMode {
                         rot = true;
                     }
 
+                    /**normalising the power values */
                     max = abs(sf);
                     if (abs(df) > max) {
                         max = abs(df);
@@ -193,12 +213,14 @@ public class  TeleOP_S4T_LOC extends OpMode {
                         ds /= max;
                     }
 
+                    /**setting the speed of the chassis*/
                     if (v == 1) {
                         POWER(df / 5, sf / 5, ds / 5, ss / 5);
                     } else if (v == 2) {
                         POWER(df, sf, ds, ss);
                     }
 
+                    /**fps counter*/
                     fpsC++;
                     if (sysTimeC + 1000 < System.currentTimeMillis()) {
                         fpsCLast = fpsC;
@@ -214,6 +236,7 @@ public class  TeleOP_S4T_LOC extends OpMode {
         double offset = 0;
         @Override
         public void run() {
+            /**repeat until the program stop*/
             while (!stop) {
                 if(gamepad1.y){
                     offset = (EncDr - EncSt) / 2.0;
@@ -221,6 +244,7 @@ public class  TeleOP_S4T_LOC extends OpMode {
                 encRot = ((EncDr - EncSt) / 2.0) - offset;
                 angle = encRot / tickPerDeg;
 
+                /**fps counter*/
                 fpsLOC++;
                 if (sysTimeLOC + 3000 < System.currentTimeMillis()) {
                     fpsLOCLast = fpsLOC/3;
@@ -234,6 +258,7 @@ public class  TeleOP_S4T_LOC extends OpMode {
     @Override
     public void init() {
 
+        /**initialization motor and the encoders */
         motordf = hardwareMap.get(DcMotorEx.class, "df");
         motords = hardwareMap.get(DcMotorEx.class, "ds");
         motorsf = hardwareMap.get(DcMotorEx.class, "sf");
@@ -246,6 +271,8 @@ public class  TeleOP_S4T_LOC extends OpMode {
         motords.setDirection(DcMotorSimple.Direction.REVERSE);
         motorss.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
+        /**setting the mode of the motors and the mode of the encoders*/
         motordf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motords.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorsf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -264,6 +291,7 @@ public class  TeleOP_S4T_LOC extends OpMode {
         motorsf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorss.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        /**initialization the system current time milliseconds*/
         sysTime = System.currentTimeMillis();
         sysTimeC = sysTime;
         sysTimeEncDr = sysTime;
@@ -273,7 +301,8 @@ public class  TeleOP_S4T_LOC extends OpMode {
         sysTimeP = sysTime;
         sysTimeI = sysTime;
 
-       //  ENCDr.start();
+        /**starting the threads*/
+        ENCDr.start();
         ENCSp.start();
         ENCSt.start();
         Chassis.start();
@@ -281,6 +310,7 @@ public class  TeleOP_S4T_LOC extends OpMode {
 
     }
 
+    /**using the loop function to send the telemetry to the phone*/
     @Override
     public void loop() {
         telemetry.addData("ENCDr:", EncDr);
@@ -308,9 +338,10 @@ public class  TeleOP_S4T_LOC extends OpMode {
         telemetry.update();
     }
 
+    /**using the stop function to stop the threads*/
     public void stop(){stop = true;}
 
-
+    /**the power function sets the motor's power*/
     public void POWER(double df1, double sf1, double ds1, double ss1){
         motordf.setPower(df1);
         motorss.setPower(ss1);
