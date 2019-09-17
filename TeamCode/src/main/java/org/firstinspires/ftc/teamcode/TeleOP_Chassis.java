@@ -51,6 +51,7 @@ public class TeleOP_Chassis extends OpMode {
                 right = -gamepad1.left_stick_x;
                 clockwise = gamepad1.right_stick_x;
 
+
                 /**calculating the power for motors */
                 df = forward + clockwise - right;
                 ss = forward - clockwise - right;
@@ -119,6 +120,7 @@ public class TeleOP_Chassis extends OpMode {
 
         /**start the thread*/
         Chassis.start();
+
     }
 
     /**using the loop function to send the telemetry to the phone*/
