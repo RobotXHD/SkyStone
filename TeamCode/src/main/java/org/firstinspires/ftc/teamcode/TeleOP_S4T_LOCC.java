@@ -12,6 +12,7 @@ import static java.lang.Math.abs;
 @TeleOp
 public class TeleOP_S4T_LOCC extends OpMode {
 
+
     private DcMotor encoderDreapta , encoderSpate, encoderStanga;
     private DcMotorEx motordf;
     private DcMotorEx motorsf;
