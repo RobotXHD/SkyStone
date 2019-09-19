@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import static java.lang.Math.abs;
 
 @TeleOp
+/***/
 public class TeleOP_S4T_RTH extends OpMode {
     /***declare the motors and encoders */
     private DcMotor encoderDreapta , encoderSpate;
@@ -93,6 +94,7 @@ public class TeleOP_S4T_RTH extends OpMode {
                     targetFS = EncDr;
                     targetSD = EncSp;
                 }
+
                 else if(gamepad1.b){
                     if(targetFS < EncDr){
                         while(targetFS < EncDr-100 && !stop){

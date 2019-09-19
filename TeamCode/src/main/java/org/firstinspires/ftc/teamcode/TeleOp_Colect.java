@@ -33,9 +33,10 @@ public class TeleOp_Colect extends OpMode {
     private long fpsC=0;
     private long fpsCLast;
     /** variable that  holds the system current time milliseconds */
-    private long sysTimeC;
+    private long sysTimeC,sysTimeP;
     /** variables that toggle motors collect */
-    private boolean apoz = false, alast = true;
+    private boolean apoz = false, alast = true, apoz2 = false, alast2 = true;
+    private double power = 1;
 
     private Thread Chassis_Colect = new Thread( new Runnable() {
         @Override
@@ -92,14 +93,26 @@ public class TeleOp_Colect extends OpMode {
                     POWER(df, sf, ds, ss);
                 }
 
+                if(gamepad1.dpad_up && sysTimeP +200 < System.currentTimeMillis() && power < 1) {
+                    power += 0.01;
+                    sysTimeP = System.currentTimeMillis();
+                    motorColectSt.setPower(power);
+                    motorColectDr.setPower(-power);
+                }
+                if(gamepad1.dpad_down && sysTimeP +200 < System.currentTimeMillis() && power > 0) {
+                    power -= 0.01;
+                    sysTimeP = System.currentTimeMillis();
+                    motorColectSt.setPower(power);
+                    motorColectDr.setPower(-power);
+                }
                 /**set the collector motors on or off using the toggle*/
                 boolean abut = gamepad1.x;
                 if(alast != abut){
                     if(gamepad1.x) {
                         apoz = !apoz;
                         if (apoz){
-                            motorColectSt.setPower(0.7);
-                            motorColectDr.setPower(-0.7);
+                            motorColectSt.setPower(power);
+                            motorColectDr.setPower(-power);
                         }
                         else{
                             motorColectSt.setPower(0);
@@ -108,6 +121,23 @@ public class TeleOp_Colect extends OpMode {
                     }
                     alast=abut;
                 }
+
+                boolean abut2 = gamepad1.y;
+                if(alast2 != abut2){
+                    if(gamepad1.y) {
+                        apoz2 = !apoz2;
+                        if (apoz2){
+                            motorColectSt.setPower(-1);
+                            motorColectDr.setPower(1);
+                        }
+                        else{
+                            motorColectSt.setPower(0);
+                            motorColectDr.setPower(0);
+                        }
+                    }
+                    alast2=abut2;
+                }
+
             }
         }
     });
@@ -115,7 +145,7 @@ public class TeleOp_Colect extends OpMode {
 
     @Override
     public void init(){
-        /**initialization motors */
+        /**initialization motors*/
         motordf = hardwareMap.get(DcMotorEx.class, "df");
         motords = hardwareMap.get(DcMotorEx.class, "ds");
         motorsf = hardwareMap.get(DcMotorEx.class, "sf");
@@ -127,7 +157,7 @@ public class TeleOp_Colect extends OpMode {
         motords.setDirection(DcMotorSimple.Direction.REVERSE);
         motorss.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        /**set the mode of the motors */
+        /**set the mode of the motors*/
         motordf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motords.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorsf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -140,6 +170,7 @@ public class TeleOp_Colect extends OpMode {
 
         /**initialization system current milliseconds */
         sysTimeC = System.currentTimeMillis();
+        sysTimeP = sysTimeC;
 
         /**start the thread*/
         Chassis_Colect.start();
@@ -154,6 +185,7 @@ public class TeleOp_Colect extends OpMode {
         telemetry.addData("motords: ", motords.getCurrentPosition());
         telemetry.addData("motorss: ", motorss.getCurrentPosition());
         telemetry.addData("Th: ", fpsCLast);
+        telemetry.addData("POWER: ", power);
         telemetry.update();
     }
 
