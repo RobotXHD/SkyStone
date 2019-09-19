@@ -17,7 +17,7 @@ public class HardwareSkybot extends LinearOpMode {
     }
 
 
-    public void Init(HardwareMap hmap){
+    public void init(HardwareMap hmap){
         hwmap = hmap;
         motorss = hwmap.get(DcMotorEx.class, "ss");
         motords = hwmap.get(DcMotorEx.class, "ds");
